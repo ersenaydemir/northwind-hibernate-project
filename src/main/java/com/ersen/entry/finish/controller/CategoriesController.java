@@ -1,13 +1,11 @@
 package com.ersen.entry.finish.controller;
 
 import com.ersen.entry.finish.dto.CategoriesDto;
+import com.ersen.entry.finish.model.ActionResult;
 import com.ersen.entry.finish.service.impl.CategoriesService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,5 +28,10 @@ public class CategoriesController {
     public ResponseEntity<List<CategoriesDto>> categories() {
         List<CategoriesDto> categories = service.getCategories();
         return new ResponseEntity<>(categories, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/")
+    public ResponseEntity<ActionResult> createCategory(@RequestBody CategoriesDto request) {
+        return new ResponseEntity<>(service.save(request), HttpStatus.OK);
     }
 }

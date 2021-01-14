@@ -14,7 +14,7 @@ public class Categories implements Serializable {
     private static final long serialVersionUID = 3532606259725028014L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Categoryid")
     private Integer categoryId;
 
@@ -25,5 +25,5 @@ public class Categories implements Serializable {
     private String description;
 
     @Column(name = "Picture")
-    private String picture;
+    private byte[] picture;
 }
