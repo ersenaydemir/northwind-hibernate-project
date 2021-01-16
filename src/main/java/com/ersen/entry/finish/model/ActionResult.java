@@ -10,4 +10,5 @@ import lombok.Setter;
 public class ActionResult {
     private Boolean success;
     private String message;
+    private Object data;
 }
