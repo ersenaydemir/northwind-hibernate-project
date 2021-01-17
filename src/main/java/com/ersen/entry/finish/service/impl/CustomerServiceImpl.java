@@ -3,7 +3,6 @@ package com.ersen.entry.finish.service.impl;
 import com.ersen.entry.finish.dto.CustomerDto;
 import com.ersen.entry.finish.dto.ResponseDto;
 import com.ersen.entry.finish.model.ActionResult;
-import com.ersen.entry.finish.persistence.entity.Category;
 import com.ersen.entry.finish.persistence.entity.Customer;
 import com.ersen.entry.finish.persistence.repository.CustomerRepository;
 import com.ersen.entry.finish.service.CustomerService;
@@ -45,13 +44,7 @@ public class CustomerServiceImpl implements CustomerService, LoggerSupport {
     @Override
     public ActionResult save(CustomerDto customerDto) {
         Customer customer = new ModelMapper().map(customerDto, Customer.class);
-        String newCustomerId = Generator.randomWord(5);
-        boolean checkCustomer = repository.existsById(newCustomerId);
-        while (checkCustomer) {
-            newCustomerId = Generator.randomWord(5);
-            checkCustomer = repository.existsById(newCustomerId);
-        }
-        customer.setCustomerId(newCustomerId);
+        customer.setCustomerId(generateCustomerId());
         try {
             repository.save(customer);
         } catch (Exception e) {
@@ -59,10 +52,6 @@ public class CustomerServiceImpl implements CustomerService, LoggerSupport {
             return ActionResult.builder().success(false).message(e.getMessage()).build();
         }
         return ActionResult.builder().success(true).message("saved").data(customer).build();
-    }
-
-    private Customer mapCustomer(CustomerDto customerDto) {
-        return null;
     }
 
     @Override
@@ -81,5 +70,15 @@ public class CustomerServiceImpl implements CustomerService, LoggerSupport {
         return customers.stream()
                 .map(customer -> new ModelMapper().map(customer, CustomerDto.class))
                 .collect(Collectors.toList());
+    }
+
+    public String generateCustomerId() {
+        String newCustomerId = Generator.randomWord(5);
+        boolean checkCustomer = repository.existsById(newCustomerId);
+        while (checkCustomer) {
+            newCustomerId = Generator.randomWord(5);
+            checkCustomer = repository.existsById(newCustomerId);
+        }
+        return newCustomerId;
     }
 }

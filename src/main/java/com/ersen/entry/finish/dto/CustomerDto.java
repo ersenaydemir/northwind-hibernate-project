@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,4 +24,6 @@ public class CustomerDto {
     private String country;
     private String phone;
     private String fax;
+    private Set<CustomerDemographicDto> customerDemographics;
+//    private Set<OrderDto> orders;
 }

@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -46,4 +47,11 @@ public class Customer implements Serializable {
 
     @Column(name = "Fax")
     private String fax;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "CustomerCustomerDemo", joinColumns = {@JoinColumn(name = "CustomerID")}, inverseJoinColumns = {@JoinColumn(name = "CustomerTypeID")})
+    private Set<CustomerDemographic> customerDemographics;
+
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Order> orders;
 }
